@@ -12,7 +12,7 @@ def depth_search(res_Graph, V, s, visited):
             visited[v] = True
             stack.extend([u for u in range(V) if res_Graph[v][u] > 0])
 
-def push(F, excess, u, v):
+def push(F,C, excess, u, v):
     send = min(excess[u], C[u][v] - F[u][v])
     F[u][v] += send
     F[v][u] -= send
@@ -36,7 +36,7 @@ def discharge(F, C, excess, seen, height, u):
         if seen[u] < n: # check next neighbour
             v = seen[u]
             if C[u][v] - F[u][v] > 0 and height[u] > height[v]:
-                push(F, excess, u, v)
+                push(F,C, excess, u, v)
             else:
                 seen[u] += 1
         else:
@@ -60,7 +60,7 @@ def MaxFlow(C, s, t):
      height[s] = n   # longest path s -> t is < n
      excess[s] = float("inf")
      for v in range(n):
-         push(F, excess, s, v)
+         push(F, C,excess, s, v)
  
      p = 0
      while p < len(nodelist):
